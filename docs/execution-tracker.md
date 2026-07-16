@@ -69,7 +69,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   statement; neither warning blocks the baseline build.
 
 - [ ] `B0.3` Produce the baseline artifact and sideload instructions.
-  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.2`
+  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.3-sideload-artifact` | Depends: `B0.2`
   Done when: an installable artifact and exact watch setup steps are available.
   Evidence: `—`
 
