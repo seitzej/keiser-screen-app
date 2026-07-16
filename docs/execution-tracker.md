@@ -46,7 +46,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
 ## Phase 0: Reproducible Baseline
 
 - [ ] `B0.1` Record the Connect IQ SDK version and reproducible build command.
-  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: none
+  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.1-reproducible-build` | Depends: none
   Done when: a clean checkout can build with the documented SDK and command.
   Evidence: `—`
 
