@@ -7,7 +7,9 @@ This fork is being modernized into a reliable full-screen data field for the
 Garmin Forerunner 970. See the
 [Forerunner 970 data field build plan](docs/forerunner-970-data-field-plan.md)
 for the architecture, data-freshness rules, FIT recording behavior, MVP scope,
-and watch acceptance test.
+and watch acceptance test. Agents coordinate ownership, dependencies, and
+completion evidence through the
+[multi-agent execution tracker](docs/execution-tracker.md).
 
 The way makes Garmin Connect to analyze the data: [Keiser2ANT](https://github.com/tao-j/Keiser2ANT)
 

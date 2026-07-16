@@ -33,6 +33,11 @@ IDs while replacing the runtime structure with validated packet models,
 freshness-aware state management, separated BLE/UI/FIT responsibilities, and
 automated tests.
 
+Agents must coordinate through the
+[multi-agent execution tracker](execution-tracker.md). The tracker is the source
+of truth for task ownership, dependency gates, completion state, and validation
+evidence. A task is not complete merely because code exists on a branch.
+
 The MVP targets only the Garmin Forerunner 970. Broader device support can be
 reintroduced later after it compiles and is tested on each declared family.
 
@@ -496,24 +501,90 @@ If native Garmin power and cadence recognition becomes necessary, build a separa
 
 That is a separate phase and should not block the watch-data-field MVP.
 
-## Suggested Initial Work Plan
+## Execution Sequence and Parallel Work
 
-1. Install the current Garmin Connect IQ SDK and VS Code extension.
-2. Reduce the manifest target list to `fr970` and compile the inherited app.
-3. Sideload the baseline to the watch and confirm that advertisements from the
-   user's bike are visible.
-4. Verify the bike ID, manufacturer identifier, raw payload, byte offsets,
-   duration wrapping, and distance units against real captures.
-5. Introduce validated immutable packets and explicit little-endian helpers.
-6. Separate BLE scanning, state tracking, UI rendering, and FIT contribution.
-7. Remove Keiser HR from the primary data model and recording path.
-8. Add packet-age tracking, connection states, diagnostics, and automatic
-   reacquisition.
-9. Build the full-screen power/cadence/resistance UI and compact fallback.
-10. Add parser, filtering, freshness, and disconnected-recording tests.
-11. Verify FIT developer fields in a saved Indoor Bike activity.
-12. Run the 30-minute acceptance test.
-13. Only then add discovery mode or expand supported devices.
+Do not implement every subsystem at once. The baseline and real-bike protocol
+must be verified first because they define the interfaces used by all later
+work. After those gates close, four work lanes may proceed in parallel.
+
+```text
+Baseline compile gate
+        ↓
+Real-bike protocol gate
+        ├── Parser and state lane
+        ├── UI lane
+        ├── FIT, settings, and lifecycle lane
+        └── Diagnostics and test-infrastructure lane
+                    ↓
+             Integration gate
+                    ↓
+          Watch acceptance gate
+```
+
+### Phase 0: Reproducible Baseline
+
+1. Record the Connect IQ SDK version and reproducible build commands.
+2. Reduce the manifest to `fr970` and compile the inherited application before
+   changing its behavior.
+3. Produce a sideloadable baseline and watch-test instructions.
+
+Gate 0 closes only when the inherited app builds for `fr970`, fits within the
+data-field memory limit, and the exact toolchain and command are recorded.
+
+### Phase 1: Real-Bike Protocol Verification
+
+1. Add development-only raw-payload, bike-ID, manufacturer-ID, and RSSI output.
+2. Sideload the diagnostic build and capture advertisements from the user's
+   original M3i.
+3. Confirm payload length, byte offsets, data-type values, units, duration
+   wrapping, and representative values; save sanitized fixtures in the repo.
+4. Write the confirmed packet contract and expected decoded values beside the
+   fixtures.
+
+Gate 1 closes only when a checked-in fixture can be decoded into values that
+match the bike console. Until then, downstream agents may prepare scaffolding
+but must not finalize parser, FIT, or display assumptions.
+
+### Phase 2: Parallel Implementation Lanes
+
+Once Gate 1 closes, complete the short shared-interface task `C2.0` in the
+execution tracker. After that contract is committed, separate agents may claim
+these lanes concurrently:
+
+- **Parser and state:** immutable packet model, validated parser, explicit
+  little-endian helpers, bike filtering, freshness states, dropouts, and
+  reacquisition tests.
+- **UI:** shared display model, full-screen power/cadence/resistance layout,
+  compact fallback, and obvious degraded/disconnected presentation.
+- **FIT, settings, and lifecycle:** compatible developer fields, Garmin-native
+  HR preservation, stale-value omission, bike ID and unit settings, and safe
+  scan start/stop behavior.
+- **Diagnostics and test infrastructure:** counters, debug logging, fixtures,
+  simulator scenarios, build scripts, and memory-budget reporting.
+
+Each lane must consume the shared packet/state interfaces committed by the
+`C2.0` owner. Interface changes that affect another lane require a tracker note
+before code changes are merged.
+
+### Phase 3: Integration
+
+1. Merge the lanes and resolve interface mismatches centrally rather than
+   independently changing shared contracts in each branch.
+2. Compile for `fr970`, check the memory budget, and run all automated tests.
+3. Exercise fresh, degraded, disconnected, malformed-packet, and reacquisition
+   scenarios in the simulator.
+4. Sideload the integrated build and confirm live display and FIT recording on
+   the watch.
+
+Gate 2 closes only when the integrated build passes automated and simulator
+checks and completes a shorter device ride without stale data, crashes, or a
+duplicate activity.
+
+### Phase 4: Acceptance
+
+Run the documented 30-minute ride, inspect the saved FIT activity, and verify
+Garmin Connect and optional Strava synchronization. Mark the MVP complete only
+after all acceptance evidence is recorded in the execution tracker.
 
 ## Source References
 
