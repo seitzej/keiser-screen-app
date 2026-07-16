@@ -68,13 +68,18 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   from 74×72 to 65×65, and the inherited scan loop contains an unreachable
   statement; neither warning blocks the baseline build.
 
-- [ ] `B0.3` Produce the baseline artifact and sideload instructions.
-  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.3-sideload-artifact` | Depends: `B0.2`
+- [x] `B0.3` Produce the baseline artifact and sideload instructions.
+  Status: `DONE` | Owner: `Codex` | Branch: `agent/B0.3-sideload-artifact` | Depends: `B0.2`
   Done when: an installable artifact and exact watch setup steps are available.
-  Evidence: `—`
+  Evidence: main commit `25a8ecc`; a clean-tree SDK `9.2.0` release build
+  created ignored artifact `bin/keiser-screen-app-fr970.prg` at 17,180 bytes
+  with SHA-256 `23a2c8e7327161763183dad0fb4ca3e5f9f2b84bdc9b3dc6b057817deb5897a1`;
+  `docs/build-and-sideload.md` records artifact verification, MTP USB copy to
+  `GARMIN/APPS`, Indoor Bike data-screen setup, bike-ID configuration, and the
+  boundary between this reproducible handoff and later physical-watch tests.
 
 - [ ] `G0` Close the reproducible-baseline gate.
-  Status: `WAITING` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1–B0.3`
+  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1–B0.3`
   Done when: all Phase 0 tasks are `DONE`.
   Evidence: `—`
 
