@@ -57,7 +57,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   build; making it the only target remains scoped to `B0.2`.
 
 - [ ] `B0.2` Target only `fr970` and compile the inherited application unchanged.
-  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1`
+  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.2-fr970-baseline` | Depends: `B0.1`
   Done when: the baseline compiles and its memory usage is recorded.
   Evidence: `—`
 
