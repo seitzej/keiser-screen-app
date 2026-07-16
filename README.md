@@ -11,6 +11,9 @@ and watch acceptance test. Agents coordinate ownership, dependencies, and
 completion evidence through the
 [multi-agent execution tracker](docs/execution-tracker.md).
 
+The pinned local toolchain and reproducible compiler command are documented in
+[Build and Sideload the Data Field](docs/build-and-sideload.md).
+
 The way makes Garmin Connect to analyze the data: [Keiser2ANT](https://github.com/tao-j/Keiser2ANT)
 
 ## Usage Tips

@@ -26,10 +26,10 @@ class KeiserBLEDataFieldApp extends Application.AppBase {
     }
 
     // Return the initial view of your application here
-    function getInitialView() as Array<Views or InputDelegates>? {
+    function getInitialView() {
         var view = new KeiserBLEDataFieldView();
         view.bind(BleDataSrc);
-        return [ view ] as Array<Views or InputDelegates>;
+        return [ view ];
     }
 
 }
