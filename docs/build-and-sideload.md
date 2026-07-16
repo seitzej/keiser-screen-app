@@ -121,6 +121,9 @@ watch configuration path. Display, BLE, FIT, and real-bike behavior are
 certified by the later simulator and physical-watch tasks in the execution
 tracker.
 
+For the development-only build and physical M3i protocol-capture procedure used
+by Phase 1, see [Capture M3i Advertisement Diagnostics](advertisement-diagnostics.md).
+
 Official references:
 
 - [Garmin Connect IQ command-line setup](https://developer.garmin.com/connect-iq/reference-guides/monkey-c-command-line-setup/)
