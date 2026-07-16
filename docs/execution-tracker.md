@@ -56,13 +56,20 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   baseline, so `fr970` was enabled alongside the inherited targets for this
   build; making it the only target remains scoped to `B0.2`.
 
-- [ ] `B0.2` Target only `fr970` and compile the inherited application unchanged.
-  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.2-fr970-baseline` | Depends: `B0.1`
+- [x] `B0.2` Target only `fr970` and compile the inherited application unchanged.
+  Status: `DONE` | Owner: `Codex` | Branch: `agent/B0.2-fr970-baseline` | Depends: `B0.1`
   Done when: the baseline compiles and its memory usage is recorded.
-  Evidence: `—`
+  Evidence: main commit `375f0ec`; `xmllint` validated the manifest and all
+  resource XML; XPath checks reported `minApiLevel=6.0.0`, one product, and
+  product ID `fr970`; the documented release build reported `BUILD SUCCESSFUL`,
+  902 bytes of foreground data, 1,334 bytes of foreground code, zero extended
+  code pages, and a 17,180-byte PRG against the device file's 131,072-byte data
+  field memory limit. Captured warnings: the inherited launcher icon is scaled
+  from 74×72 to 65×65, and the inherited scan loop contains an unreachable
+  statement; neither warning blocks the baseline build.
 
 - [ ] `B0.3` Produce the baseline artifact and sideload instructions.
-  Status: `WAITING` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.2`
+  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.2`
   Done when: an installable artifact and exact watch setup steps are available.
   Evidence: `—`
 
