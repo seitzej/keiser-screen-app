@@ -45,13 +45,19 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
 
 ## Phase 0: Reproducible Baseline
 
-- [ ] `B0.1` Record the Connect IQ SDK version and reproducible build command.
-  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/B0.1-reproducible-build` | Depends: none
+- [x] `B0.1` Record the Connect IQ SDK version and reproducible build command.
+  Status: `DONE` | Owner: `Codex` | Branch: `agent/B0.1-reproducible-build` | Depends: none
   Done when: a clean checkout can build with the documented SDK and command.
-  Evidence: `—`
+  Evidence: main commit `bad9b2b`; OpenJDK `17.0.19`; `monkeyc -v`
+  reported Connect IQ SDK `9.2.0`; the documented `monkeyc -d fr970 ...
+  -r -w --build-stats 0` command reported `BUILD SUCCESSFUL` with a 17,180-byte
+  PRG, 902 bytes of foreground data, and 1,334 bytes of foreground code. The
+  available SDK Manager device library did not offer the planned `fenix7`
+  baseline, so `fr970` was enabled alongside the inherited targets for this
+  build; making it the only target remains scoped to `B0.2`.
 
 - [ ] `B0.2` Target only `fr970` and compile the inherited application unchanged.
-  Status: `WAITING` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1`
+  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1`
   Done when: the baseline compiles and its memory usage is recorded.
   Evidence: `—`
 
