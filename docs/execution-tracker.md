@@ -90,7 +90,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
 ## Phase 1: Real-Bike Protocol Gate
 
 - [ ] `P1.1` Add development-only advertisement diagnostics.
-  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `G0`
+  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/P1.1-advertisement-diagnostics` | Depends: `G0`
   Done when: raw payload, bike ID, manufacturer ID, RSSI, and parse failures can
   be captured without entering release behavior.
   Evidence: `—`
