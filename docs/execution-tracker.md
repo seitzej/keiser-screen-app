@@ -89,14 +89,21 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
 
 ## Phase 1: Real-Bike Protocol Gate
 
-- [ ] `P1.1` Add development-only advertisement diagnostics.
-  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/P1.1-advertisement-diagnostics` | Depends: `G0`
+- [x] `P1.1` Add development-only advertisement diagnostics.
+  Status: `DONE` | Owner: `Codex` | Branch: `agent/P1.1-advertisement-diagnostics` | Depends: `G0`
   Done when: raw payload, bike ID, manufacturer ID, RSSI, and parse failures can
   be captured without entering release behavior.
-  Evidence: `—`
+  Evidence: implementation commit `6dd20b9`, merged to main by `0770695`;
+  Connect IQ SDK `9.2.0` and OpenJDK `17.0.19` builds both reported
+  `BUILD SUCCESSFUL`; the debug build used 1,220 bytes of foreground data,
+  1,809 bytes of foreground code, and produced a 103,932-byte PRG containing
+  four raw-advertisement diagnostic string markers; the release build used
+  911 bytes of foreground data, 1,377 bytes of foreground code, and produced a
+  17,228-byte PRG containing none of those markers. Both builds emitted only
+  the two inherited launcher-icon scaling and unreachable-statement warnings.
 
 - [ ] `P1.2` Capture advertisements from the user's original M3i.
-  Status: `WAITING` | Owner: `USER` | Branch: `—` | Depends: `P1.1`
+  Status: `READY` | Owner: `USER` | Branch: `—` | Depends: `P1.1`
   Done when: sanitized captures and matching console readings cover idle and
   active pedaling at multiple power and resistance values.
   Evidence: `—`
