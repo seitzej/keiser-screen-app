@@ -1,8 +1,13 @@
 using Toybox.System as Sys;
-using Toybox.WatchUi as Ui;
 using Toybox.BluetoothLowEnergy as Ble;
+using Toybox.Lang as Lang;
 
 class KeiserBLEDelegate extends Ble.BleDelegate {
+    const KEISER_MANUFACTURER_ID = 0x0102;
+    const BIKE_ID_OFFSET = 3;
+    const DATA_TYPE_OFFSET = 2;
+    const MINIMUM_PACKET_LENGTH = 17;
+
     var cadence = 0;
     var heartRate = 0;
     var power = 0;
@@ -30,11 +35,23 @@ class KeiserBLEDelegate extends Ble.BleDelegate {
                     !res.getDeviceName().equals("M3")) {
                     continue;
                 }
-                var msd = res.getManufacturerSpecificData(01 << 8 + 02);
+
+                logM3Advertisement(res);
+
+                var msd = res.getManufacturerSpecificData(KEISER_MANUFACTURER_ID);
                 if (msd == null) {
                     continue;
                 }
-                if (msd[3].equals(bikeID)) {
+
+                if (msd.size() <= BIKE_ID_OFFSET) {
+                    continue;
+                }
+
+                if (msd[BIKE_ID_OFFSET].equals(bikeID)) {
+                    if (msd.size() < MINIMUM_PACKET_LENGTH) {
+                        continue;
+                    }
+
                     // System.println("Parsing data");
                     parseKeiserMSD(msd);
                 }
@@ -46,11 +63,11 @@ class KeiserBLEDelegate extends Ble.BleDelegate {
     }
 
     function bytesToFloat(a, b) {
-        return (a + b << 8).toFloat() / 10.0;
+        return (a | (b << 8)).toFloat() / 10.0;
     }
 
     function bytesToInt(a, b) {
-        return (a + b << 8);
+        return a | (b << 8);
     }
 
     function parseKeiserMSD(msd as Toybox.Lang.ByteArray) {
@@ -65,5 +82,76 @@ class KeiserBLEDelegate extends Ble.BleDelegate {
             distance = bytesToFloat(msd[14], msd[15]);
             gear = msd[16];
         }
+    }
+
+    (:debug)
+    function logM3Advertisement(res as Ble.ScanResult) as Void {
+        var rssi = res.getRssi();
+        var entries = res.getManufacturerSpecificDataIterator();
+        var foundManufacturerData = false;
+
+        while (true) {
+            var nextEntry = entries.next();
+            if (nextEntry == null) {
+                break;
+            }
+
+            var entry = nextEntry as Lang.Dictionary;
+            foundManufacturerData = true;
+
+            var manufacturerId = entry[:companyId] as Lang.Number;
+            var payload = entry[:data] as Lang.ByteArray;
+            var bikeId = "NA";
+            var status = "parseable";
+
+            if (payload.size() <= BIKE_ID_OFFSET) {
+                status = "bike_id_unavailable";
+            } else {
+                bikeId = payload[BIKE_ID_OFFSET].format("%d");
+
+                if (payload.size() < MINIMUM_PACKET_LENGTH) {
+                    status = "payload_too_short";
+                } else {
+                    var dataType = payload[DATA_TYPE_OFFSET];
+                    if (dataType != 0 &&
+                        (dataType < 128 || dataType > 227)) {
+                        status = "unsupported_data_type";
+                    }
+                }
+            }
+
+            Sys.println(
+                "M3_ADV manufacturer=0x" + manufacturerId.format("%04X") +
+                " rssi=" + rssi +
+                " bikeId=" + bikeId +
+                " length=" + payload.size() +
+                " status=" + status +
+                " payload=" + payloadToHex(payload)
+            );
+        }
+
+        if (!foundManufacturerData) {
+            Sys.println(
+                "M3_ADV manufacturer=NA" +
+                " rssi=" + rssi +
+                " bikeId=NA length=0" +
+                " status=manufacturer_data_missing payload="
+            );
+        }
+    }
+
+    (:release)
+    function logM3Advertisement(res as Ble.ScanResult) as Void {
+    }
+
+    (:debug)
+    function payloadToHex(payload as Lang.ByteArray) as Lang.String {
+        var result = "";
+
+        for (var i = 0; i < payload.size(); i += 1) {
+            result += payload[i].format("%02X");
+        }
+
+        return result;
     }
 }
