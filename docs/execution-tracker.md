@@ -103,7 +103,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   the two inherited launcher-icon scaling and unreachable-statement warnings.
 
 - [ ] `P1.2` Capture advertisements from the user's original M3i.
-  Status: `READY` | Owner: `USER` | Branch: `—` | Depends: `P1.1`
+  Status: `IN_PROGRESS` | Owner: `USER` | Branch: `agent/P1.2-real-bike-capture` | Depends: `P1.1`
   Done when: sanitized captures and matching console readings cover idle and
   active pedaling at multiple power and resistance values.
   Evidence: `—`
