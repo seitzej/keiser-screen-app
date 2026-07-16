@@ -78,15 +78,19 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   `GARMIN/APPS`, Indoor Bike data-screen setup, bike-ID configuration, and the
   boundary between this reproducible handoff and later physical-watch tests.
 
-- [ ] `G0` Close the reproducible-baseline gate.
-  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/G0-close-baseline-gate` | Depends: `B0.1–B0.3`
+- [x] `G0` Close the reproducible-baseline gate.
+  Status: `DONE` | Owner: `Codex` | Branch: `agent/G0-close-baseline-gate` | Depends: `B0.1–B0.3`
   Done when: all Phase 0 tasks are `DONE`.
-  Evidence: `—`
+  Evidence: main audit commit `79cd419`; confirmed `B0.1–B0.3` are `DONE`
+  with main commits and validation evidence; XML and manifest checks passed;
+  the manifest reports `6.0.0 1 fr970`; the SDK `9.2.0` release rebuild
+  reproduced the recorded 17,180-byte PRG and SHA-256; build output contains
+  only the two captured inherited warnings; the tracked worktree remained clean.
 
 ## Phase 1: Real-Bike Protocol Gate
 
 - [ ] `P1.1` Add development-only advertisement diagnostics.
-  Status: `WAITING` | Owner: `unclaimed` | Branch: `—` | Depends: `G0`
+  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `G0`
   Done when: raw payload, bike ID, manufacturer ID, RSSI, and parse failures can
   be captured without entering release behavior.
   Evidence: `—`
