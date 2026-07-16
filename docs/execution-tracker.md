@@ -79,7 +79,7 @@ off. Keep task IDs stable so commits, branches, and handoffs remain traceable.
   boundary between this reproducible handoff and later physical-watch tests.
 
 - [ ] `G0` Close the reproducible-baseline gate.
-  Status: `READY` | Owner: `unclaimed` | Branch: `—` | Depends: `B0.1–B0.3`
+  Status: `IN_PROGRESS` | Owner: `Codex` | Branch: `agent/G0-close-baseline-gate` | Depends: `B0.1–B0.3`
   Done when: all Phase 0 tasks are `DONE`.
   Evidence: `—`
 
