@@ -1,6 +1,14 @@
 # Garmin Keiser M Series BLE 
 **This only records and displays data. It will not be analyzed by Garmin Connect (ex. distance, duration, effort and many more) due to limitations imposed by the vendor.**
 
+## Forerunner 970 Modernization
+
+This fork is being modernized into a reliable full-screen data field for the
+Garmin Forerunner 970. See the
+[Forerunner 970 data field build plan](docs/forerunner-970-data-field-plan.md)
+for the architecture, data-freshness rules, FIT recording behavior, MVP scope,
+and watch acceptance test.
+
 The way makes Garmin Connect to analyze the data: [Keiser2ANT](https://github.com/tao-j/Keiser2ANT)
 
 ## Usage Tips
