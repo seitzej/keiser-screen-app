@@ -72,18 +72,23 @@ not confirm the offsets, units, or meaning of any byte.
 
 ## Capture scenarios
 
-Start an Indoor Bike activity with the diagnostic field visible. For each
-scenario, hold the console reading steady for about 20–30 seconds and record the
-watch time plus the console values. Capture at least:
+Use a separate capture interval and fresh watch log for each scenario. Start an
+Indoor Bike activity with the diagnostic field visible, hold the console
+reading steady for about 20–30 seconds, and record the watch time plus the
+console values. Capture at least:
 
 1. Idle bike before pedaling.
 2. Easy pedaling at a low resistance.
 3. Steady pedaling at a moderate resistance and power.
 4. Steady pedaling at a higher resistance and power.
 
+During one active interval, extend the capture long enough to record the normal
+console-duration transition from `mm:59` to `(mm+1):00`. Maximum-duration
+wrapping is a later hardware follow-up and does not block `P1.2`.
+
 Use this worksheet while capturing:
 
-| Scenario | Watch time | Bike ID | Power | Cadence | Resistance | Distance | Calories | Console duration | Distance units |
+| Scenario | Watch time | Bike ID | Power | Cadence | Resistance | Distance | Calories | Duration start/end | Distance units |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | --- | --- |
 | Idle | | | | | | | | | |
 | Low | | | | | | | | | |
@@ -95,17 +100,24 @@ must not control the activity lifecycle.
 
 ## Retrieve and sanitize evidence
 
-Reconnect the watch and copy both files when present:
+After each scenario, reconnect the watch and copy both files when present:
 
 ```text
 GARMIN/APPS/LOGS/keiser-screen-app-fr970-diagnostics.TXT
 GARMIN/APPS/LOGS/keiser-screen-app-fr970-diagnostics.BAK
 ```
 
+Rename the retrieved files with the scenario name, for example `idle.txt` and
+`idle.bak.txt`, then recreate an empty
+`keiser-screen-app-fr970-diagnostics.TXT` before the next scenario. This keeps
+log rotation from discarding or mixing scenario evidence.
+
 Keep complete `M3_ADV` lines and do not edit payload bytes. Remove unrelated
 log lines containing personal paths, device identifiers, or activity details.
 Label each sanitized log with its worksheet scenario so `P1.3` can turn the
-observations into fixtures and a confirmed packet contract.
+observations into fixtures and a confirmed packet contract. Place the completed
+worksheet and sanitized logs under `docs/evidence/p1.2/`; see that directory's
+README for the evidence contract and expected filenames.
 
 Physical-watch captures and console readings are user-owned evidence. An agent
 must not mark `P1.2` complete without those artifacts.
